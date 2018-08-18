@@ -1,6 +1,7 @@
-const path = require('path');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 const config = {
 	entry:'./src/index.js',
@@ -14,6 +15,17 @@ const config = {
 				test: /\.(js|jsx)$/,
 				exclude: /node_modules/,
 				loader: "babel-loader",
+			},
+			{
+				test: /\.(png|jpg|gif|svg)$/,
+				use: [
+					{
+						loader: 'url-loader',
+						options: {
+							limit: 8192
+						}
+					}
+				]
 			}
 		]
 	},
@@ -26,24 +38,35 @@ const config = {
 			ilename: './index.html',
 			template: './index.html',
 			inject: true
+		}),
+		new MiniCssExtractPlugin({
+			filename: "[name].css",
+			chunkFilename: "[id].css"
 		})
 	]
 }
 
-
-
-
-
-
-
-
-
 module.exports = (env,argv) => {
-	if(argv.mode === 'development'){
+	let devMode = argv.mode === 'development',
+		scssRule = {
+			test: /\.scss$/,
+			use: [
+				devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+				'css-loader?modules',
+				'sass-loader'
+			]
+		}
+
+	// if(argv.mode === 'development'){}
+	// if(argv.mode === 'production'){}
+
+	if(devMode){
 		config.devtool = 'source-map'
-	}
-	if(argv.mode === 'production'){
+	}else{
 
 	}
+
+	config.module.rules.push(scssRule)
+
 	return config
 }
