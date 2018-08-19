@@ -50,9 +50,19 @@ module.exports = (env,argv) => {
 	let devMode = argv.mode === 'development',
 		scssRule = {
 			test: /\.scss$/,
+			exclude:path.resolve(__dirname, 'src/css'),
 			use: [
 				devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
 				'css-loader?modules',
+				'sass-loader'
+			]
+		},
+		includeRule = {
+			test: /\.scss$/,
+			include:path.resolve(__dirname, 'src/css'),
+			use: [
+				devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+				'css-loader',
 				'sass-loader'
 			]
 		}
@@ -67,6 +77,7 @@ module.exports = (env,argv) => {
 	}
 
 	config.module.rules.push(scssRule)
+	config.module.rules.push(includeRule)
 
 	return config
 }
