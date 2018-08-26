@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios'
 import sty from './app.scss'
 
 class App extends React.Component{
@@ -7,8 +8,14 @@ class App extends React.Component{
 		this.state = {
 			prodList:[]
 		}
-		fetch('https://easy-mock.com/mock/5b7984a3bcb2ab748b0c2559/product')
-			.then((res)=>res.json())
+		// fetch('https://easy-mock.com/mock/5b7984a3bcb2ab748b0c2559/product')
+		// 	.then((res)=>res.json())
+		// 	.then((data)=>{
+		// 		this.setState({
+		// 			prodList:data.data
+		// 		})
+		// 	})
+		axios.get('/product')
 			.then((data)=>{
 				this.setState({
 					prodList:data.data
