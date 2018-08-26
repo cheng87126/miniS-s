@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/cheng87126/miniShop-shop#readme",
   "dependencies": {
+    "antd-mobile": "^2.2.3",
     "axios": "^0.18.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2"

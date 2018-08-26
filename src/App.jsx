@@ -2,47 +2,58 @@ import React from 'react'
 import axios from 'axios'
 import sty from './app.scss'
 
+import Carousel from 'antd-mobile/lib/carousel'
+import 'antd-mobile/lib/carousel/style/css'
+
 class App extends React.Component{
 	constructor() {
 		super()
 		this.state = {
+			bannerList:[],
 			prodList:[]
 		}
-		// fetch('https://easy-mock.com/mock/5b7984a3bcb2ab748b0c2559/product')
-		// 	.then((res)=>res.json())
-		// 	.then((data)=>{
-		// 		this.setState({
-		// 			prodList:data.data
-		// 		})
-		// 	})
 		axios.get('/product')
 			.then((data)=>{
 				this.setState({
+					bannerList:data.banner,
 					prodList:data.data
 				})
 			})
 	}
 	render(){
-		let {prodList} = this.state
+		let {bannerList,prodList} = this.state
 		return (
-			<section className={sty.product}>
-				{
-					prodList.map((item,idx)=>{
-						return (
-							<a href="" key={idx}>
-								<img src={item.img} alt="img" />
-								<p>
-									{item.name}{item.detail}
-								</p>
-								<p>
-									<span className={sty.price}>¥{item.price}</span>
-									<span className={sty.original}>¥{item.original}</span>
-								</p>
-								<p className="btn">立即购买</p>
-							</a>
-						)
-					})
-				}
+			<section>
+				<Carousel
+					autoplay
+					infinite
+					dots
+				>
+					{
+						bannerList.map((item,idx)=>{
+							return <img src={item} key={idx} alt="banner"/>
+						})
+					}
+				</Carousel>
+				<section className={sty.product}>
+					{
+						prodList.map((item,idx)=>{
+							return (
+								<a href="" key={idx}>
+									<img src={item.img} alt="img" />
+									<p>
+										{item.name}{item.detail}
+									</p>
+									<p>
+										<span className={sty.price}>¥{item.price}</span>
+										<span className={sty.original}>¥{item.original}</span>
+									</p>
+									<p className="btn">立即购买</p>
+								</a>
+							)
+						})
+					}
+				</section>
 			</section>
 		)
 	}

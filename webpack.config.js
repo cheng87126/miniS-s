@@ -49,7 +49,7 @@ const config = {
 module.exports = (env,argv) => {
 	let devMode = argv.mode === 'development',
 		scssRule = {
-			test: /\.scss$/,
+			test: /\.(css|scss)$/,
 			exclude:path.resolve(__dirname, 'src/css'),
 			use: [
 				devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
@@ -58,7 +58,7 @@ module.exports = (env,argv) => {
 			]
 		},
 		includeRule = {
-			test: /\.scss$/,
+			test: /\.(css|scss)$/,
 			include:path.resolve(__dirname, 'src/css'),
 			use: [
 				devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
